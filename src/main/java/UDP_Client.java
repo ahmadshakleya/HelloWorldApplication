@@ -5,8 +5,11 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
+// https://4cnotes.blogspot.com/2011/12/java-file-transfer-using-udp.html
+
 public class UDP_Client {
-    public static void main(String args[]) throws Exception {
+
+    public UDP_Client(String address, int port) throws Exception {
         boolean isRunning = true;
         Scanner sc = new Scanner(System.in);
 
@@ -15,9 +18,10 @@ public class UDP_Client {
         DatagramSocket ds = new DatagramSocket();
 
         InetAddress ip = InetAddress.getLocalHost();
+        //System.out.println(ip);
         byte buf[] = null;
 
-        // loop while user not enters "bye"
+        // loop while user not enters "close"
         while (isRunning) {
             String inp = sc.nextLine();
 
@@ -26,7 +30,7 @@ public class UDP_Client {
 
             // Step 2 : Create the datagramPacket for sending
             // the data.
-            DatagramPacket DpSend = new DatagramPacket(buf, buf.length, ip, 2000);
+            DatagramPacket DpSend = new DatagramPacket(buf, buf.length, ip, port);
 
             // Step 3 : invoke the send call to actually send
             // the data.
@@ -43,7 +47,13 @@ public class UDP_Client {
         }
     }
 
-    private static String pickAFile() {
+    public static void main(String args[]) throws Exception {
+        try {
+            UDP_Client client = new UDP_Client("127.0.0.1", 2000);
+        } catch (Exception e) { throw new Exception(e); }
+    }
+
+    private String pickAFile() {
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Text files", "txt");
         chooser.setFileFilter(filter);
@@ -57,7 +67,7 @@ public class UDP_Client {
     }
 
     // sendFile function define here
-    private static void sendFile(DatagramSocket ds, String path, InetAddress ip) throws Exception {
+    private void sendFile(DatagramSocket ds, String path, InetAddress ip) throws Exception {
         byte buf[] = new byte[1024];
         // Open the File where he located in your pc
         File file = new File(path);

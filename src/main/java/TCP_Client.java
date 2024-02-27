@@ -55,7 +55,7 @@ public class TCP_Client {
         }
     }
 
-    public static void main(String args[]) throws UnknownHostException {
+    public static void main(String args[]) {
         try {
             TCP_Client client = new TCP_Client("127.0.0.1", 5000);
         } catch (UnknownHostException e) { throw new RuntimeException(e); }
