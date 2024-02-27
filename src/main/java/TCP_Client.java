@@ -61,28 +61,6 @@ public class TCP_Client {
         } catch (UnknownHostException e) { throw new RuntimeException(e); }
     }
 
-    // sendFile function define here
-    private void sendFile(String path) throws Exception {
-        int bytes = 0;
-        // Open the File where he located in your pc
-        File file = new File(path);
-        FileInputStream fileInputStream
-                = new FileInputStream(file);
-
-        // Here we send the File to Server
-        out.writeLong(file.length());
-        // Here we  break file into chunks
-        byte[] buffer = new byte[4 * 1024];
-        while ((bytes = fileInputStream.read(buffer))
-                != -1) {
-            // Send the file to Server Socket
-            out.write(buffer, 0, bytes);
-            out.flush();
-        }
-        // close the file here
-        fileInputStream.close();
-    }
-
     private String pickAFile() {
         JFileChooser chooser = new JFileChooser();
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Text files", "txt");
@@ -94,5 +72,25 @@ public class TCP_Client {
             return chooser.getSelectedFile().getAbsolutePath();
         }
         return null;
+    }
+
+    // sendFile function define here
+    private void sendFile(String path) throws Exception {
+        int bytes = 0;
+        // Open the File where he located in your pc
+        File file = new File(path);
+        FileInputStream fileInputStream = new FileInputStream(file);
+
+        // Here we send the File to Server
+        out.writeLong(file.length());
+        // Here we  break file into chunks
+        byte[] buffer = new byte[4 * 1024];
+        while ((bytes = fileInputStream.read(buffer)) != -1) {
+            // Send the file to Server Socket
+            out.write(buffer, 0, bytes);
+            out.flush();
+        }
+        // close the file here
+        fileInputStream.close();
     }
 }
