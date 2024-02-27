@@ -9,6 +9,7 @@ public class TCP_Client {
     private Socket socket = null;
     private DataInputStream input = null;
     private DataOutputStream out = null;
+    private volatile boolean isRunning = true;
 
     // constructor to put ip address and port
     public TCP_Client(String address, int port) throws UnknownHostException {
@@ -23,7 +24,7 @@ public class TCP_Client {
             // sends output to the socket
             out = new DataOutputStream(socket.getOutputStream());
         } catch (IOException i) {
-            System.out.println(i);
+            System.out.println("Error 1");
             return;
         }
 
@@ -31,26 +32,27 @@ public class TCP_Client {
         String line = "";
 
         // keep reading until "Over" is input
-        while (!line.equals("close")) {
+        while (isRunning) {
             try {
                 line = input.readLine();
                 out.writeUTF(line);
-                if (line.equals("save")) {
+                if (line.equals("close")) {
+                    // close the connection
+                    try {
+                        input.close();
+                        out.close();
+                        socket.close();
+                        isRunning = false;
+                    } catch (IOException i) { System.out.println(i); }
+                } else if (line.equals("save")) {
                     String filepath = pickAFile();
                     if (filepath != null) sendFile(filepath);
                     else System.out.println("file not found");
                 }
             }
-            catch (IOException i) { System.out.println(i); }
+            catch (IOException i) { System.out.println("Error 2"); }
             catch (Exception e) { throw new RuntimeException(e); }
         }
-
-        // close the connection
-        try {
-            input.close();
-            out.close();
-            socket.close();
-        } catch (IOException i) { System.out.println(i); }
     }
 
     public static void main(String args[]) throws UnknownHostException {

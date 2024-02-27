@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
 // netstat -ant | grep 127
@@ -7,11 +8,14 @@ import java.util.concurrent.TimeUnit;
 public class Main {
     public static void main(String[] args) throws IOException {
         System.out.println("System start");
+//        try {
+//            Socket socket = new Socket("127.0.0.1", 2680);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
         try {
-            Socket socket = new Socket("127.0.0.1", 2680);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            TCP_Client client = new TCP_Client("127.0.0.2", 5000);
+        } catch (UnknownHostException e) { throw new RuntimeException(e); }
     }
 }
 
