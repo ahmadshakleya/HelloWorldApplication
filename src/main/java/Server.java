@@ -11,7 +11,7 @@ public class Server {
         try {
             server = new ServerSocket(port);  // Create a ServerSocket object to listen for client connections on the specified port
             System.out.println("Server started");  // Print message indicating that the server has started
-            
+
             while (true) {
                 System.out.println("Waiting for a client ...");  // Print message indicating that the server is waiting for a client to connect
                 new ClientHandler(server.accept()).start();  // Accept a new client connection and start a new ClientHandler thread to handle the client
@@ -19,14 +19,14 @@ public class Server {
         } catch (IOException i) {  // Catch block to handle IOException
             System.out.println(i);  // Print error message if an I/O exception occurs
         }
-
+    }
     public static void main(String args[])
     {
         Server server = new Server(5000);  // Create a new Server object and start it on port 5000
     }
 }
 
-Class ClientHandler extends Thread {
+class ClientHandler extends Thread {
     private Socket socket = null; // Socket object for handling client connections
     private DataInputStream in = null; // DataInputStream for receiving data from the client
 
@@ -61,5 +61,11 @@ Class ClientHandler extends Thread {
             System.out.println(i);  // Print error message if an I/O exception occurs
         }
         }
-    }
 }
+
+/*
+In this code, we've created a new ClientHandler class that extends Thread.
+Each ClientHandler handles one client connection.
+When a new client connects, we create a new ClientHandler for that client and start it.
+Each ClientHandler runs in its own thread, so multiple clients can be handled simultaneously.
+ */
