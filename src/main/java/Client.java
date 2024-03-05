@@ -2,6 +2,8 @@
 import java.io.*;
 import java.net.*;
 
+
+
 public class Client {
     // initialize socket and input output streams
     private Socket socket = null;  // Socket object for establishing connection
@@ -94,3 +96,65 @@ public class Client {
     }
 
 }
+
+/*
+
+import java.io.*;
+import java.net.*;
+
+public class Client {
+    private Socket socket = null;
+    private DataInputStream input = null;
+    private DataOutputStream out = null;
+
+    public Client(String address, int port) {
+        try {
+            socket = new Socket(address, port);
+            System.out.println("Connected");
+
+            input = new DataInputStream(socket.getInputStream());
+            out = new DataOutputStream(socket.getOutputStream());
+
+            new Thread(() -> {
+                while (true) {
+                    try {
+                        String filename = input.readUTF();
+                        if (!filename.isEmpty()) {
+                            sendFile(filename);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
+        } catch (IOException i) {
+            System.out.println(i);
+        }
+    }
+
+    private void sendFile(String filename) {
+        try {
+            File file = new File(filename);
+            FileInputStream fis = new FileInputStream(file);
+            long length = file.length();
+            byte[] buffer = new byte[4096];
+            out.writeUTF(file.getName());
+            out.flush();
+            out.writeInt((int) length);
+            out.flush();
+            int count;
+            while ((count = fis.read(buffer)) > 0) {
+                out.write(buffer, 0, count);
+            }
+            out.flush();
+            fis.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void main(String args[]) {
+        Client client = new Client("127.0.0.1", 5000);
+    }
+}*/

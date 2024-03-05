@@ -1,4 +1,3 @@
-// A Java program for a Server
 import java.net.*;
 import java.io.*;
 
@@ -106,3 +105,55 @@ class ClientHandler extends Thread {
     }
 }
 
+/*
+class ClientHandler extends Thread {
+    private Socket socket;
+    private DataInputStream in;
+    private DataOutputStream out;
+
+    public ClientHandler(Socket socket) {
+        this.socket = socket;
+        try {
+            in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+            out = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void run() {
+        try {
+            String filename = in.readUTF();
+            if (!filename.isEmpty()) {
+                FileOutputStream fos = new FileOutputStream(filename);
+                byte[] buffer = new byte[4096];
+                
+                int filesize = in.readInt(); // Send file size in separate msg
+                int read = 0;
+                int totalRead = 0;
+                int remaining = filesize;
+                while((read = in.read(buffer, 0, Math.min(buffer.length, remaining))) > 0) {
+                    totalRead += read;
+                    remaining -= read;
+                    System.out.println("read " + totalRead + " bytes.");
+                    fos.write(buffer, 0, read);
+                }
+                
+                fos.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void sendFileRequest(String filename) {
+        try {
+            out.writeUTF(filename);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+*/
