@@ -20,11 +20,19 @@ public class Client {
 
             // sends output to the socket
             out = new DataOutputStream(socket.getOutputStream());  // Create a DataOutputStream to send data to the server
+
+            //sendFile(".\\src\\main\\resources\\test1.txt");
+            //sendFile(".\\src\\main\\resources\\test2.txt");
+
+            receiveFile(".\\src\\main\\resources\\receive1.txt");
         } catch (UnknownHostException u) {  // Catch block to handle UnknownHostException
             System.out.println(u);  // Print error message if an unknown host exception occurs
             return;
         } catch (IOException i) {  // Catch block to handle IOException
             System.out.println(i);  // Print error message if an I/O exception occurs
+            return;
+        } catch (Exception i) {
+            System.out.println(i);
             return;
         }
 
@@ -49,6 +57,35 @@ public class Client {
         } catch (IOException i) {  // Catch block to handle IOException
             System.out.println(i);  // Print error message if an I/O exception occurs
         }
+    }
+
+    private void sendFile(String path) throws Exception {
+        int bytes = 0;
+        File file = new File(path);
+        FileInputStream fileInputStream = new FileInputStream(file);
+
+        // Send file size
+        out.writeLong(file.length());
+        // Break file into chunks
+        byte[] buffer = new byte[4*1024];
+        while ((bytes=fileInputStream.read(buffer)) != -1) {
+            out.write(buffer,0,bytes);
+            out.flush();
+        }
+        fileInputStream.close();
+    }
+
+    private void receiveFile(String fileName) throws Exception {
+        int bytes = 0;
+        FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+
+        long size = input.readLong(); // read file size
+        byte[] buffer = new byte[4*1024];
+        while (size > 0 && (bytes = input.read(buffer, 0, (int)Math.min(buffer.length, size))) != -1) {
+            fileOutputStream.write(buffer,0,bytes);
+            size -= bytes;
+        }
+        fileOutputStream.close();
     }
 
     public static void main(String args[])
