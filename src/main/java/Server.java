@@ -14,7 +14,7 @@ public class Server {
 
             while (true) {
                 System.out.println("Waiting for a client ...");  // Print message indicating that the server is waiting for a client to connect
-                //new ClientHandler(server.accept()).start();  // Accept a new client connection and start a new ClientHandler thread to handle the client
+                //new TCP.ClientHandler(server.accept()).start();  // Accept a new client connection and start a new TCP.ClientHandler thread to handle the client
             }
         } catch (IOException i) {  // Catch block to handle IOException
             System.out.println(i);  // Print error message if an I/O exception occurs
@@ -27,14 +27,14 @@ public class Server {
     }
 }
 /*
-class ClientHandler extends Thread {
+class TCP.ClientHandler extends Thread {
     private Socket socket = null; // Socket object for handling client connections
     private DataInputStream in = null; // DataInputStream for receiving data from the client
 
     private DataOutputStream out = null;
 
     // Constructor to initialize the socket and input stream
-    public ClientHandler(Socket socket) {
+    public TCP.ClientHandler(Socket socket) {
         this.socket = socket; // Initialize the socket object
     }
 
