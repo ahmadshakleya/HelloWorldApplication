@@ -1,6 +1,7 @@
 package TCP;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -13,7 +14,8 @@ public class TCP_File_Server {
 
         try {
             ServerSocket serverSocket = new ServerSocket(PORT);
-            System.out.println("Server started. Waiting for connections...");
+            InetAddress serverAddress = InetAddress.getLocalHost();
+            System.out.println("Server started at " + serverAddress.getHostAddress() + ":" + PORT + ". Waiting for connections...");
 
             while (true) {
                 Socket socket = serverSocket.accept();

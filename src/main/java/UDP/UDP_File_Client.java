@@ -7,18 +7,26 @@ import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.Socket;
 
 public class UDP_File_Client {
     public static void main(String[] args) {
-        final String SERVER_IP = "127.0.0.1";
-        final int PORT = 5000;
 
         try {
+            // Open streams for communication
+            BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+
+            // Get server IP address from user input
+            System.out.print("Enter server IP address: ");
+            String SERVER_IP = userInput.readLine();
+
+            // Get server port from user input
+            System.out.print("Enter server port: ");
+            int PORT = Integer.parseInt(userInput.readLine());
+
             DatagramSocket socket = new DatagramSocket();
 
             // Open streams for communication
-            BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+            userInput = new BufferedReader(new InputStreamReader(System.in));
 
             // Get user input for the file name
             System.out.println("Enter file name: ");

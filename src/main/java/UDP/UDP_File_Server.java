@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 
 public class UDP_File_Server {
     public static void main(String[] args) {
@@ -12,7 +13,8 @@ public class UDP_File_Server {
 
         try {
             DatagramSocket serverSocket = new DatagramSocket(PORT);
-            System.out.println("Server started. Waiting for connections...");
+            InetAddress serverAddress = InetAddress.getLocalHost();
+            System.out.println("Server started at " + serverAddress.getHostAddress() + ":" + PORT + ". Waiting for connections...");
 
             while(true) {
                 byte[] receiveData = new byte[1024];

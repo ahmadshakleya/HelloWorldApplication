@@ -5,14 +5,22 @@ import java.net.Socket;
 
 public class TCP_File_Client {
     public static void main(String[] args) {
-        final String SERVER_IP = "127.0.0.1";
-        final int PORT = 5000;
 
         try {
-            Socket socket = new Socket(SERVER_IP, PORT);
-
             // Open streams for communication
             BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+
+            // Get server IP address from user input
+            System.out.print("Enter server IP address: ");
+            String SERVER_IP = userInput.readLine();
+
+            // Get server port from user input
+            System.out.print("Enter server port: ");
+            int PORT = Integer.parseInt(userInput.readLine());
+
+            Socket socket = new Socket(SERVER_IP, PORT);
+
+            userInput = new BufferedReader(new InputStreamReader(System.in));
             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
