@@ -39,10 +39,6 @@ public class TCP_File_Client {
             }
             fileOutputStream.close();
 
-            // Display response from server
-            String response = in.readLine();
-            System.out.println("Server response: " + response);
-
             // Close connection
             socket.close();
         } catch (IOException e){
